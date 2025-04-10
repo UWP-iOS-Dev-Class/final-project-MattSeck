@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct DashboardView: View {
+    
+    @EnvironmentObject var authViewModel: AuthViewModel
+    
     var body: some View {
             NavigationView {
                 GeometryReader { geometry in
@@ -17,7 +20,10 @@ struct DashboardView: View {
 
                             Text("Maintenance Dashboard")
                                 .font(.title)
-                            Text("Hello, *user's name*")
+                            HStack {
+                                Text("Hello,")
+                                Text(authViewModel.userProfile?.fullName ?? "Loading...")
+                            }
                             
                             // Your Cars Section
                             Text("Your Cars")

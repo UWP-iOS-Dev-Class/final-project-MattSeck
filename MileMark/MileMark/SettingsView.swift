@@ -9,10 +9,12 @@ import SwiftUI
 
 struct SettingsView: View {
     @State private var notificationsEnabled = true
+    @EnvironmentObject var authViewModel: AuthViewModel
     @State private var darkMode = false
     
     var body: some View {
         NavigationView {
+            
             VStack(spacing: 5) {
                 HStack {
                     Text("Settings")
@@ -28,13 +30,13 @@ struct SettingsView: View {
                     Section(header: Text("Personal Details")) {
                         HStack {
                             Image(systemName: "person.circle")
-                            Text("*user's email*")
+                            Text(authViewModel.userProfile?.email ?? "Loading...")
                             Spacer()
                             Text(">")
                         }
                         HStack {
                             Image(systemName: "phone.circle")
-                            Text("*user's phone number*")
+                            Text(authViewModel.userProfile?.phoneNumber ?? "Loading...")
                             Spacer()
                             Text(">")
                         }
@@ -50,6 +52,7 @@ struct SettingsView: View {
                     Section(header: Text("Preferences")) {
                         Toggle("Notifications", isOn: $notificationsEnabled)
                         Toggle("Dark Mode", isOn: $darkMode)
+                        Button("Logout", action: authViewModel.logout)
                     }
                 }
             }
