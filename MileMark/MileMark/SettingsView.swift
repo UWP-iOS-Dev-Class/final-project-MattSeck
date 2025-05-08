@@ -9,16 +9,16 @@ import SwiftUI
 
 struct SettingsView: View {
     @State private var notificationsEnabled = true
-    @EnvironmentObject var authViewModel: AuthViewModel
     @State private var darkMode = false
-    
+    @EnvironmentObject var authViewModel: AuthViewModel
+
     var body: some View {
         NavigationView {
-            
             VStack(spacing: 5) {
                 HStack {
                     Text("Settings")
                         .font(.title)
+                        .bold()
                         .padding(.leading)
                     Spacer()
                 }
@@ -27,34 +27,37 @@ struct SettingsView: View {
                 Spacer()
                 
                 Form {
-                    Section(header: Text("Personal Details")) {
-                        HStack {
-                            Image(systemName: "person.circle")
-                            Text(authViewModel.userProfile?.email ?? "Loading...")
-                            Spacer()
-                            Text(">")
+                    if let profile = authViewModel.userProfile {
+                        Section(header: Text("Personal Details")) {
+                            HStack {
+                                Image(systemName: "envelope.circle")
+                                Text(profile.email)
+                            }
+                            HStack {
+                                Image(systemName: "phone.circle")
+                                Text(profile.phoneNumber)
+                            }
+                            HStack {
+                                Image(systemName: "lock")
+                                Text("CHANGE PASSWORD")
+                            }
                         }
-                        HStack {
-                            Image(systemName: "phone.circle")
-                            Text(authViewModel.userProfile?.phoneNumber ?? "Loading...")
-                            Spacer()
-                            Text(">")
+                    } else {
+                        Section {
+                            ProgressView("Loading profile...")
                         }
-                        HStack {
-                            Image(systemName: "lock")
-                            Text("CHANGE PASSWORD")
-                            Spacer()
-                            Text(">")
-                        }
-                        
                     }
-                    
+
                     Section(header: Text("Preferences")) {
                         Toggle("Notifications", isOn: $notificationsEnabled)
                         Toggle("Dark Mode", isOn: $darkMode)
                         Button("Logout", action: authViewModel.logout)
+                            .foregroundColor(.red)
                     }
                 }
+            }
+            .onAppear {
+                authViewModel.fetchUserProfile()
             }
             .navigationTitle("")
             .navigationBarHidden(true)
@@ -63,6 +66,7 @@ struct SettingsView: View {
 }
 
 #Preview {
-    SettingsView()
+    SettingsView().environmentObject(AuthViewModel())
 }
+
 
