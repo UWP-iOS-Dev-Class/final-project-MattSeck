@@ -33,7 +33,7 @@ struct CarCardView: View {
             .padding([.horizontal, .bottom], 8)
         }
         .frame(width: 200)
-        .background(Color.white)
+        .background(Color(UIColor.secondarySystemBackground))
         .cornerRadius(12)
         .overlay(
             RoundedRectangle(cornerRadius: 12)

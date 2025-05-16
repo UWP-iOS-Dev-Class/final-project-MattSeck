@@ -8,6 +8,7 @@
 import SwiftUI
 import FirebaseFirestore
 import FirebaseAuth
+import UserNotifications
 
 struct AddCarSheetView: View {
     @Environment(\.presentationMode) var presentationMode
@@ -19,7 +20,6 @@ struct AddCarSheetView: View {
     @State private var mileage = ""
     @State private var showMileageError = false
 
-    
     var editingCar: Car?
 
     var body: some View {
@@ -78,24 +78,26 @@ struct AddCarSheetView: View {
 
         let carRef = Firestore.firestore().collection("users").document(uid).collection("cars")
 
+        let carName = "\(selectedMake) \(selectedModel)"
+
         if let editingCar = editingCar {
-            // Update existing car
             carRef.document(editingCar.id).setData(carData) { error in
                 if let error = error {
                     print("Error updating car: \(error.localizedDescription)")
                 } else {
                     authViewModel.fetchCars()
                     presentationMode.wrappedValue.dismiss()
+                    NotificationManager.shared.scheduleMileageReminder(for: carName, in: 7)
                 }
             }
         } else {
-            // Add new car
             carRef.addDocument(data: carData) { error in
                 if let error = error {
                     print("Error adding car: \(error.localizedDescription)")
                 } else {
                     authViewModel.fetchCars()
                     presentationMode.wrappedValue.dismiss()
+                    NotificationManager.shared.scheduleMileageReminder(for: carName, in: 7)
                 }
             }
         }

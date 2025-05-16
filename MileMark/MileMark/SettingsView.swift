@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @State private var notificationsEnabled = true
     @State private var darkMode = false
     @EnvironmentObject var authViewModel: AuthViewModel
 
@@ -49,9 +48,8 @@ struct SettingsView: View {
                     }
 
                     Section(header: Text("Preferences")) {
-                        Toggle("Notifications", isOn: $notificationsEnabled)
-                        Toggle("Dark Mode", isOn: $darkMode)
-                        Button("Logout", action: authViewModel.logout)
+    
+                    Button("Logout", action: authViewModel.logout)
                             .foregroundColor(.red)
                     }
                 }

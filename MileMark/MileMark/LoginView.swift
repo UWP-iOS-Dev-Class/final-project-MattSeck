@@ -5,6 +5,7 @@
 //  Created by Matthew Secketa on 4/9/25.
 //
 import SwiftUI
+import FirebaseAuth
 
 struct LoginView: View {
     @State private var email = ""
@@ -14,10 +15,10 @@ struct LoginView: View {
     var body: some View {
         VStack(spacing: 25) {
             Spacer()
-            
-            Text("Welcome Back")
+
+            Text("MileMark")
                 .font(.largeTitle.bold())
-            
+
             Text("Login to continue")
                 .foregroundColor(.gray)
                 .font(.subheadline)
@@ -29,7 +30,7 @@ struct LoginView: View {
                     .padding()
                     .background(Color(.systemGray6))
                     .cornerRadius(12)
-                
+
                 SecureField("Password", text: $password)
                     .padding()
                     .background(Color(.systemGray6))
@@ -41,6 +42,14 @@ struct LoginView: View {
                     .foregroundColor(.red)
                     .font(.footnote)
                     .padding(.top, 5)
+
+                if errorMessage.contains("verify your email") {
+                    Button("Resend Verification Email") {
+                        resendVerificationEmail()
+                    }
+                    .font(.footnote)
+                    .foregroundColor(.blue)
+                }
             }
 
             Button(action: {
@@ -55,12 +64,24 @@ struct LoginView: View {
             }
 
             Spacer()
-            
+
             NavigationLink("Don't have an account? Sign Up", destination: SignUpView())
                 .font(.footnote)
                 .foregroundColor(.blue)
         }
         .padding()
+    }
+
+    private func resendVerificationEmail() {
+        if let user = Auth.auth().currentUser, !user.isEmailVerified {
+            user.sendEmailVerification { error in
+                if let error = error {
+                    print("❌ Failed to resend verification email: \(error.localizedDescription)")
+                } else {
+                    print("📧 Verification email resent to \(user.email ?? "")")
+                }
+            }
+        }
     }
 }
 

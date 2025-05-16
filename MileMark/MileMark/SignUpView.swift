@@ -14,19 +14,19 @@ struct SignUpView: View {
     @State private var fullName = ""
     @State private var phoneNumber = ""
     @State private var localError = ""
-    
+    @State private var showVerificationSent = false
+
     @EnvironmentObject var authViewModel: AuthViewModel
-    
+    @Environment(\.dismiss) private var dismiss
+
     var body: some View {
         ScrollView {
             VStack(spacing: 25) {
                 Spacer(minLength: 20)
-                
+
                 Text("Create Account")
                     .font(.largeTitle.bold())
-                
-        
-                
+
                 VStack(spacing: 16) {
                     TextField("Full Name", text: $fullName)
                         .padding()
@@ -38,18 +38,19 @@ struct SignUpView: View {
                         .padding()
                         .background(Color(.systemGray6))
                         .cornerRadius(12)
-                    
+
                     TextField("Email", text: $email)
                         .autocapitalization(.none)
+                        .keyboardType(.emailAddress)
                         .padding()
                         .background(Color(.systemGray6))
                         .cornerRadius(12)
-                    
+
                     SecureField("Password", text: $password)
                         .padding()
                         .background(Color(.systemGray6))
                         .cornerRadius(12)
-                    
+
                     SecureField("Confirm Password", text: $confirmPassword)
                         .padding()
                         .background(Color(.systemGray6))
@@ -82,6 +83,7 @@ struct SignUpView: View {
                         fullName: fullName,
                         phoneNumber: phoneNumber
                     )
+                    showVerificationSent = true
                 }) {
                     Text("Create Account")
                         .foregroundColor(.white)
@@ -89,6 +91,14 @@ struct SignUpView: View {
                         .padding()
                         .background(Color.blue)
                         .cornerRadius(12)
+                }
+                .alert("Verification Email Sent",
+                       isPresented: $showVerificationSent) {
+                    Button("OK") {
+                        dismiss()
+                    }
+                } message: {
+                    Text("Please check your inbox and verify your email before logging in.")
                 }
 
                 NavigationLink("Already have an account? Log In", destination: LoginView())
@@ -101,6 +111,5 @@ struct SignUpView: View {
 }
 
 #Preview {
-    SignUpView()
-        .environmentObject(AuthViewModel())
+    SignUpView().environmentObject(AuthViewModel())
 }
