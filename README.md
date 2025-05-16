@@ -49,5 +49,5 @@ Not completed features:
     Add App Icon  
     
 Future plan:  
-    Finish and impliment the uncompleted features  
+    Finish and implement the uncompleted features  
     
