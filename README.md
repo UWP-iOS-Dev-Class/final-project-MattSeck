@@ -4,25 +4,29 @@ MileMark is a SwiftUI-based mobile app that helps users track vehicle mileage an
 
 Features
     Add & Manage Vehicles
-        Track make, model, year, and current mileage
-        Horizontally scrollable car cards with selection and edit/delete options
-    Maintenance Tracking
-        Predefined and custom maintenance types (e.g. oil changes, tire rotations)
-        Log maintenance at current mileage
-        See next due maintenance based on interval
-    Firebase Authentication
-        Sign up / login with email & password
-        Email verification required before login
-        Logout and session handling
-    Local Notifications
-        Users receive mileage reminders via iOS local notifications
-        Automatically scheduled when logging mileage or adding a car
-    Dynamic UI
-        Dark mode support (cards adapt to system appearance)
-        Responsive layout across devices 
+        -Track make, model, year, and current mileage
+        -Horizontally scrollable car cards with selection and edit/delete options
+        
+Maintenance Tracking
+        -Predefined and custom maintenance types (e.g. oil changes, tire rotations)
+        -Log maintenance at current mileage
+        -See next due maintenance based on interval
+        
+ Firebase Authentication
+        -Sign up / login with email & password
+        -Email verification required before login
+        -Logout and session handling
+        
+Local Notifications
+        -Users receive mileage reminders via iOS local notifications
+        -Automatically scheduled when logging mileage or adding a car
+        
+Dynamic UI
+        -Dark mode support (cards adapt to system appearance)
+        -Responsive layout across devices 
 
 
-    Setup Instructions
+  Setup Instructions
 Clone the Repo
     git clone https://github.com/UWP-iOS-Dev-Class/final-project-MattSeck.git
     cd MileMark
